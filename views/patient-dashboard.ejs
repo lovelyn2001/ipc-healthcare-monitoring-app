@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, <%= patient.name %></h1>
+
+        <div class="form-scroll"> <!-- Added scrollable div -->
+            <form action="/dashboard/<%= patient._id %>" method="POST">
+                <h2>Please Complete the Following Fields:</h2>
+
+                <h3>Personal Information</h3>
+                <label for="email">Email</label>
+                <input type="email" name="email" value="<%= patient.email %>" required>
+
+                <label for="dateOfBirth">Date of Birth</label>
+                <input type="date" name="dateOfBirth" value="<%= patient.dateOfBirth ? patient.dateOfBirth.toISOString().split('T')[0] : '' %>" required>
+
+                <label for="houseAddress">House Address</label>
+                <input type="text" name="houseAddress" value="<%= patient.houseAddress %>" required>
+
+                <label for="gender">Gender</label>
+                <input type="text" name="gender" value="<%= patient.gender %>" required>
+
+                <label for="bloodType">Blood Type</label>
+                <input type="text" name="bloodType" value="<%= patient.bloodType %>">
+                <h3>Chronic Conditions</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;"> <!-- Flex container for inline display -->
+                    <label><input type="checkbox" name="chronicConditions" value="Diabetes" <% if (patient.chronicConditions.includes('Diabetes')) { %> checked <% } %>> Diabetes</label>
+                    <label><input type="checkbox" name="chronicConditions" value="Hypertension" <% if (patient.chronicConditions.includes('Hypertension')) { %> checked <% } %>> Hypertension</label>
+                    <label><input type="checkbox" name="chronicConditions" value="Asthma" <% if (patient.chronicConditions.includes('Asthma')) { %> checked <% } %>> Asthma</label>
+                    <label><input type="checkbox" name="chronicConditions" value="Heart Disease" <% if (patient.chronicConditions.includes('Heart Disease')) { %> checked <% } %>> Heart Disease</label>
+                </div>
+                
+                <textarea name="chronicConditionsOthers" placeholder="Other chronic conditions"><%= patient.chronicConditions.filter(cond => !['Diabetes', 'Hypertension', 'Asthma', 'Heart Disease'].includes(cond)).join(', ') %></textarea>
+                
+
+                <h3>Allergies</h3>
+                <textarea name="allergies" placeholder="Specify allergies"><%= patient.allergies %></textarea>
+
+                <h3>Medications</h3>
+                <textarea name="medications" placeholder="Current and past medications"><%= patient.medications %></textarea>
+
+                <h3>Previous Surgeries/Procedures</h3>
+                <textarea name="previousSurgeries" placeholder="Any surgeries or medical procedures"><%= patient.previousSurgeries %></textarea>
+
+                <h3>Family Medical History</h3>
+                <textarea name="familyMedicalHistory" placeholder="Family medical history (e.g., hereditary conditions)"><%= patient.familyMedicalHistory %></textarea>
+
+                <h3>Vaccination Records</h3>
+                <textarea name="vaccinationRecords" placeholder="Vaccinations received"><%= patient.vaccinationRecords %></textarea>
+
+                <h3>Laboratory Results</h3>
+                <textarea name="labResults" placeholder="Record past lab results"><%= patient.labResults %></textarea>
+
+                <h3>Doctor’s Notes</h3>
+                <textarea name="doctorNotes" placeholder="Summaries from previous consultations"><%= patient.doctorNotes %></textarea>
+
+                <h3>Lifestyle Information</h3>
+                <textarea name="lifestyleInfo" placeholder="Smoking, alcohol, exercise habits"><%= patient.lifestyleInfo %></textarea>
+
+                <h3>Vital Signs</h3>
+                <label for="heartRate">Heart Rate (BPM)</label>
+                <input type="number" name="heartRate" value="<%= patient.vitalSigns.length ? patient.vitalSigns[0].heartRate : '' %>">
+
+                <label for="bloodPressure">Blood Pressure (Systolic/Diastolic)</label>
+                <input type="text" name="bloodPressure" value="<%= patient.vitalSigns.length ? patient.vitalSigns[0].bloodPressure : '' %>">
+
+                <label for="bodyTemperature">Body Temperature (°C)</label>
+                <input type="number" name="bodyTemperature" value="<%= patient.vitalSigns.length ? patient.vitalSigns[0].bodyTemperature : '' %>">
+
+                <label for="respiratoryRate">Respiratory Rate (Breaths per minute)</label>
+                <input type="number" name="respiratoryRate" value="<%= patient.vitalSigns.length ? patient.vitalSigns[0].respiratoryRate : '' %>">
+
+                <label for="oxygenSaturation">Oxygen Saturation (SpO2 %)</label>
+                <input type="number" name="oxygenSaturation" value="<%= patient.vitalSigns.length ? patient.vitalSigns[0].oxygenSaturation : '' %>">
+
+                <label for="bloodGlucoseLevels">Blood Glucose Levels (mg/dL)</label>
+                <input type="number" name="bloodGlucoseLevels" value="<%= patient.vitalSigns.length ? patient.vitalSigns[0].bloodGlucoseLevels : '' %>">
+
+                <button type="submit">Save Information</button>
+            </form>
+        </div> <!-- End of scrollable div -->
+
+        <div id="success-message"></div>
+        <div id="add-record">
+            <button id="add-record-btn" style="display: none;">+</button> <!-- Plus sign initially hidden -->
+        </div>
+    </div>
+
+    <script src="/scripts/patient-dashboard.js"></script>
+</body>
+</html>

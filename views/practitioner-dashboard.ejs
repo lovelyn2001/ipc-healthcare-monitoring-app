@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practitioner Dashboard</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+</head>
+<body>
+    <div class="container">
+    <h1>Practitioner Dashboard</h1>
+    <div style="overflow-x: auto; width: 100%;">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>House Address</th>
+                <th>Gender</th>
+                <th>Blood Type</th>
+                <th>Appointment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% patients.forEach(function(patient) { %>
+                <tr>
+                    <td><%= patient.name %></td>
+                    <td><%= patient.phoneNumber %></td>
+                    <td><%= patient.houseAddress %></td>
+                    <td><%= patient.gender %></td>
+                    <td><%= patient.bloodType %></td>
+                    <td><!-- Appointment status --></td>
+                    <td>
+                        <button class="view-record-btn" data-id="<%= patient._id %>">View Full Record</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+    <!-- Modal for displaying full medical record -->
+    <div id="record-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Patient Full Record</h2>
+            <pre id="patient-record"></pre>
+        </div>
+    </div>
+    </div>
+
+    <!-- Include the JavaScript for handling the modal and fetching patient record -->
+    <script src="/scripts/practitioner-dashboard.js"></script>
+</body>
+</html>
